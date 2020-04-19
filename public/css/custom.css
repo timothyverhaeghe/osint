@@ -1,0 +1,56 @@
+.bg-dark {
+  background-color: #040707 !important;
+}
+
+.navbar-nav {
+  flex-direction: row-reverse !important; /* unset !important; */
+}
+
+.nav-link {
+  margin-right: 15px;
+}
+
+.btn-primary {
+  background-color: #00000 !important;
+  border-color: #00000 !important;
+  color: white !important;
+  cursor: pointer;
+}
+
+.dropdown-toggle {
+  cursor: pointer;
+}
+
+.basic-table {
+  width: 40%;
+}
+
+.basic-table td {
+  width: 50%;
+}
+
+.nav-link {
+  cursor: pointer;
+}
+
+.remove {
+  cursor: pointer;
+  color: white !important;
+}
+
+.navbar-brand {
+  box-shadow: none;
+}
+
+#mobilemenu .nav-item {
+  width: 50%;
+  font-size:1.2em;
+}
+.active {
+  font-weight: bold !important;
+  color: #333 !important;
+}
+
+.active {
+  font-weight: normal !important;
+}

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+</head>
+<body>
+
+<h1>Search Instagram</h1>
+
+<input id="hashtag" type="text" value="blijfinuwkot" placeholder="#hashtag"></input>
+<button onclick="search()">Search</button>
+
+
+<hr/>
+<br/>
+Total: <span id="total">0</span><br/>
+Query: <span id="query"></span><br/>
+
+Message: <span id="message" style="color: red;"></span>
+<br/>
+<hr/><br/>
+Table: <br/>
+
+<table style="width:30%" border="1" id="table">
+  <tr>
+    <th>ID</th>
+    <th>isVideo</th>
+    <th>URL</th>
+    <th>Caption</th>
+  </tr>
+</table>
+
+<script>
+
+
+const search = () => {
+  const hashtag = document.getElementById('hashtag');
+  var xmlhttp = new XMLHttpRequest();
+  document.getElementById('query').innerText = hashtag.value;
+  var url = "https://www.instagram.com/explore/tags/"+hashtag.value+"/?__a=1";
+
+  xmlhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+          var myArr = JSON.parse(this.responseText);
+          console.log(myArr.graphql.hashtag.edge_hashtag_to_media);
+
+          document.getElementById('total').innerText = myArr.graphql.hashtag.edge_hashtag_to_media.count;
+
+          const array = myArr.graphql.hashtag.edge_hashtag_to_media.edges;
+          var html = `
+          <tr>
+            <th>ID</th>
+            <th>isVideo</th>
+            <th>URL</th>
+            <th>Caption</th>
+          </tr>
+          `;
+          for (var i = 0; i < array.length; i++) {
+            console.log(i, array[i].node.is_video);
+
+            if(array[i].node.is_video){
+              html += `
+              <tr>
+                <td>${array[i].node.id}</td>
+                <td>${array[i].node.is_video}</td>
+                <td>
+                <img src="${array[i].node.thumbnail_src}" height="240" width="240">
+                </td>
+                <td>${array[i].node.accessibility_caption}</td>
+              </tr>
+              `
+            }
+          }
+
+          document.getElementById('table').innerHTML = html;
+
+
+
+      } else {
+        if(this.status == 404){
+          document.getElementById('message').innerText = 'ERROR 404. PAGINA NIET GEVONDEN??'
+
+          setTimeout(function(){
+            search();
+          }, 1000)
+
+        }
+      }
+  };
+  xmlhttp.open("GET", url, true);
+  xmlhttp.send();
+}
+
+
+</script>
+
+
+</body>
+</html>
